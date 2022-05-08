@@ -11,9 +11,10 @@ public class ProjectileController : LifeCycleController
         if (enemy != null)
         { 
             GameManager.Instance.IncreaseScore();
-            Destroy(enemy.gameObject); 
-            KillGameObject();
+            enemy.KillGameObject();
         }
+        KillGameObject();
+
     }
 
     public override void KillGameObject()

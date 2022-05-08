@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public abstract class GenericPool<T> : MonoBehaviour where T : Component
 {
@@ -12,6 +14,17 @@ public abstract class GenericPool<T> : MonoBehaviour where T : Component
     private void Awake()
     {
         SingletonObject();
+    }
+
+    private void OnEnable()
+    {
+        GameManager.Instance.OnSceneChanged += ResetAllObjects;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.OnSceneChanged -= ResetAllObjects;
+
     }
 
     private void Start()
@@ -32,6 +45,7 @@ public abstract class GenericPool<T> : MonoBehaviour where T : Component
         return _poolPrefabs.Dequeue();
     }
 
+    public abstract void ResetAllObjects();
     private void GrowPoolPrefab()
     {
         for (int i = 0; i < countLoop; i++)
