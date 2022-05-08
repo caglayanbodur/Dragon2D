@@ -6,7 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private int score;
     public static GameManager Instance { get; private set; }
+    public event System.Action<int> OnScoreChanged; 
 
     private void Awake()
     {
@@ -26,13 +28,36 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void RestartGame()
+    public void IncreaseScore()
     {
-        StartCoroutine(RestartGameAsync());
+        score += 10;
+        OnScoreChanged?.Invoke(score);
     }
 
-    public IEnumerator RestartGameAsync()
+    public void StartGame()
+    {
+        score = 0;
+        Time.timeScale = 1f;
+        StartCoroutine(StartGameAsync());
+    }
+
+    public IEnumerator StartGameAsync()
     {
         yield return SceneManager.LoadSceneAsync("Game");
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+
+    public void ReturnMenu()
+    {
+        StartCoroutine(ReturnMenuAsync());
+    }
+
+    public IEnumerator ReturnMenuAsync()
+    {
+        yield return SceneManager.LoadSceneAsync("Menu");
     }
 }

@@ -3,17 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+public abstract class EnemyController : LifeCycleController
 {
-   [SerializeField] private float maxLifeTime = 5f;
-   private float _currentTime;
+    public override void KillGameObject()
+    {
+        _currentTime = 0f;
+        SetEnemyPool();
+    }
 
-   private void Update()
-   {
-      _currentTime += Time.deltaTime;
-      if (_currentTime > maxLifeTime)
-      {
-         Destroy(this.gameObject);
-      }
-   }
+    public abstract void SetEnemyPool();
 }

@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class RedDragonSpawner : BaseSpawer
 { 
-    [SerializeField] private EnemyController enemy;
 
 
     protected override void Spawn()
     {
-        Instantiate(enemy, this.transform);
+        EnemyController newEnemy = RedDragonPool.Instance.Get();
+        newEnemy.transform.position = transform.position;
+        newEnemy.gameObject.SetActive(true);
     }
 }

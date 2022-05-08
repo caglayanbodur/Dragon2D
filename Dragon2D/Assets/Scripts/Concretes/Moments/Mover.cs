@@ -8,6 +8,7 @@ using UnityEngine;
 public class Mover : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private DirectionEnum direction; 
     private Rigidbody2D _rigidbody2D;
 
     private void Awake()
@@ -16,8 +17,24 @@ public class Mover : MonoBehaviour
         
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        _rigidbody2D.velocity = Vector2.left * moveSpeed;
+        _rigidbody2D.velocity = SelectNewDirection() * moveSpeed;
+    }
+
+    private Vector2 SelectNewDirection()
+    {
+        Vector2 selectedDirection;
+        if (direction == DirectionEnum.Left)
+        {
+            selectedDirection = Vector2.left;
+            
+        }
+        else
+        {
+            selectedDirection = Vector2.right;
+        }
+
+        return selectedDirection;
     }
 }
